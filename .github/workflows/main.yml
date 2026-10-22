@@ -8,6 +8,9 @@
       "steps": [
         {"uses": "actions/checkout@v4"},
         {"name": "Unzip project", "run": "unzip -q streamer-home.zip -d project"},
+        {"name": "List files",
+  "run": "find project -maxdepth 3 | sort"
+},
         {"uses": "actions/setup-java@v4", "with": {"distribution": "temurin", "java-version": "17"}},
         {"uses": "gradle/actions/setup-gradle@v4", "with": {"gradle-version": "8.9"}},
         {"name": "Build", "working-directory": "project", "run": "gradle assembleDebug --no-daemon --stacktrace"},
