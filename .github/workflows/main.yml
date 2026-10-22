@@ -7,7 +7,10 @@
       "runs-on": "ubuntu-latest",
       "steps": [
         {"uses": "actions/checkout@v4"},
-        {"name": "Unzip project", "run": "unzip -q streamer-home.zip -d project"},
+        {
+  "name": "Unzip project",
+  "run": "unzip -q streamer-home.zip -d project && find project -maxdepth 3 | sort"
+},
         {"name": "List files",
   "run": "find project -maxdepth 3 | sort"
 },
