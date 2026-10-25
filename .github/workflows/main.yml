@@ -7,16 +7,10 @@
       "runs-on": "ubuntu-latest",
       "steps": [
         {"uses": "actions/checkout@v4"},
-        {
-  "name": "Unzip project",
-  "run": "unzip -q streamer-home.zip -d project && find project -maxdepth 3 | sort"
-},
-        {"name": "List files",
-  "run": "find project -maxdepth 3 | sort"
-},
+        {"name": "Unzip project", "run": "unzip -q streamer-home.zip -d project"},
         {"uses": "actions/setup-java@v4", "with": {"distribution": "temurin", "java-version": "17"}},
         {"uses": "gradle/actions/setup-gradle@v4", "with": {"gradle-version": "8.9"}},
-        {"name": "Build", "working-directory": "project", "run": "gradle assembleDebug --no-daemon --stacktrace"},
+        {"name": "Build", "working-directory": "project", "run": "gradle assembleDebug --no-daemon --stacktrace -PbuildNumber=${{ github.run_number }}"},
         {"name": "Rename APK", "run": "cp project/app/build/outputs/apk/debug/app-debug.apk streamer-home.apk"},
         {"uses": "softprops/action-gh-release@v2", "with": {"tag_name": "build-${{ github.run_number }}", "name": "Build ${{ github.run_number }}", "files": "streamer-home.apk", "make_latest": "true"}}
       ]
